@@ -1,223 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#121214">
+  <title>Brain-Dead For You — Zombie Romance</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main id="game-container" aria-label="Brain-Dead For You visual novel">
+    <div id="hud" aria-live="polite" hidden>
+      <div id="hunger-display" class="stat-badge">🧠 HUNGER: 30%</div>
+      <div id="affection-display" class="stat-badge">💖 AFFECTION: 0</div>
+    </div>
 
-:root {
-  color-scheme: dark;
-  --bg-dark: #121214;
-  --panel-bg: #1e1e24;
-  --accent-pink: #ff4a75;
-  --accent-green: #39ff14;
-  --text-main: #f5f5f7;
-  --text-muted: #a0a0aa;
-  --border: #34343f;
-}
+    <section id="screen-start" class="screen active" aria-labelledby="start-title">
+      <p class="eyebrow">A queer cozy-apocalyptic romance</p>
+      <h1 id="start-title" class="title-logo">BRAIN-DEAD<br>FOR YOU</h1>
+      <p class="intro-copy">The world ended, but your yearning hasn't.</p>
+      <div class="start-actions">
+        <button class="btn btn-primary" type="button" data-action="start">Start game</button>
+        <a class="btn btn-secondary" href="download.html" download>Download this game</a>
+      </div>
+    </section>
 
-* { box-sizing: border-box; }
+    <section id="screen-char-select" class="screen" aria-labelledby="protagonist-title" hidden>
+      <p class="eyebrow">First, who are you?</p>
+      <h2 id="protagonist-title">Choose your protagonist</h2>
+      <div class="option-grid">
+        <button class="btn character-option" type="button" data-protagonist="Ash">
+          <span class="option-name">Ash <small>(he/him)</small></span>
+          <span class="option-description">Soft-hearted art student with extra feelings.</span>
+        </button>
+        <button class="btn character-option" type="button" data-protagonist="Cleo">
+          <span class="option-name">Cleo <small>(she/her)</small></span>
+          <span class="option-description">Alt-rock riot grrrl with a chaotic heart.</span>
+        </button>
+      </div>
+      <button class="text-button" type="button" data-action="back-start">Back</button>
+    </section>
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 20px;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(ellipse at 50% 0%, #27202a 0%, var(--bg-dark) 58%);
-  color: var(--text-main);
-  font-family: 'Space Mono', 'Courier New', monospace;
-}
+    <section id="screen-crush-select" class="screen" aria-labelledby="crush-title" hidden>
+      <p class="eyebrow">Someone has your heart</p>
+      <h2 id="crush-title">Choose your crush</h2>
+      <div id="crush-options" class="option-grid"></div>
+      <button class="text-button" type="button" data-action="back-protagonist">Back</button>
+    </section>
 
-button, a { font: inherit; }
+    <section id="screen-game" class="screen game-screen" aria-label="Story" hidden>
+      <div id="stage" aria-hidden="true">
+        <div id="player-sprite" class="sprite"></div>
+        <div id="crush-sprite" class="sprite"></div>
+      </div>
+      <div id="dialogue-container" aria-live="polite" aria-atomic="true">
+        <p id="act-label" class="act-label"></p>
+        <div id="speaker-name">System</div>
+        <p id="dialogue-text"></p>
+        <div id="choices-box" class="choices-box"></div>
+        <button id="next-btn" class="btn btn-primary next-button" type="button" data-action="next">Next <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
 
-#game-container {
-  position: relative;
-  width: min(100%, 800px);
-  height: min(min(780px, calc(100dvh - 40px)), 620px);
-  min-height: 500px;
-  overflow: hidden;
-  isolation: isolate;
-  border: 2px solid #303039;
-  border-radius: 16px;
-  background: linear-gradient(180deg, #1a1920 0%, #101014 100%);
-  box-shadow: 0 24px 70px #0009;
-}
-
-.screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(20px, 5vw, 44px);
-  text-align: center;
-  animation: arrive 220ms ease-out;
-}
-.screen[hidden], #hud[hidden] { display: none; }
-.screen.active { display: flex; }
-
-@keyframes arrive {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.eyebrow, .act-label {
-  margin: 0 0 12px;
-  color: var(--accent-green);
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-.title-logo {
-  margin: 0;
-  color: var(--accent-pink);
-  font-size: clamp(2.2rem, 8vw, 3.8rem);
-  line-height: 1.08;
-  text-shadow: 0 0 22px #ff4a7544;
-}
-
-h2 { margin: 0 0 18px; font-size: clamp(1.35rem, 4vw, 2rem); }
-.intro-copy { margin: 18px 0 25px; color: var(--text-muted); }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #555563;
-  border-radius: 8px;
-  padding: 12px 20px;
-  color: var(--text-main);
-  background: #25252f;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
-}
-.btn:hover, .btn:focus-visible {
-  transform: translateY(-2px);
-  border-color: var(--accent-pink);
-  background: #39232c;
-  outline: none;
-}
-.btn:focus-visible, .text-button:focus-visible { outline: 2px solid var(--accent-green); outline-offset: 3px; }
-.btn-primary { border-color: var(--accent-pink); background: var(--accent-pink); color: #160c10; text-transform: uppercase; }
-.btn-primary:hover, .btn-primary:focus-visible { background: #ff7393; color: #160c10; }
-.btn-secondary {
-  border-color: var(--border);
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--text-main);
-}
-.btn-secondary:hover, .btn-secondary:focus-visible {
-  border-color: var(--accent-green);
-  background: rgba(57, 255, 20, 0.08);
-  color: var(--text-main);
-}
-
-.start-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-.option-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  width: min(100%, 590px);
-  margin: 14px 0;
-}
-.character-option { min-height: 115px; text-align: left; }
-.option-name { display: block; margin-bottom: 8px; color: var(--accent-pink); font-size: 1.1rem; }
-.option-name small { color: var(--text-muted); font-size: .72rem; }
-.option-description { display: block; color: var(--text-muted); font-size: .75rem; line-height: 1.5; }
-.text-button { margin-top: 12px; padding: 8px 12px; border: 0; color: var(--text-muted); background: transparent; cursor: pointer; }
-.text-button:hover { color: var(--text-main); }
-
-#hud {
-  position: absolute;
-  z-index: 5;
-  top: 14px;
-  left: 14px;
-  right: 14px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  pointer-events: none;
-}
-.stat-badge { padding: 8px 13px; border: 1px solid; border-radius: 99px; background: #17171ddd; font-size: clamp(.65rem, 2vw, .82rem); font-weight: 700; }
-#hunger-display { border-color: var(--accent-green); color: var(--accent-green); }
-#affection-display { border-color: var(--accent-pink); color: var(--accent-pink); }
-
-.game-screen { justify-content: flex-end; padding: 0; text-align: left; }
-#stage {
-  position: absolute;
-  inset: 0 0 190px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-evenly;
-  padding: 22px 10% 0;
-  background: radial-gradient(ellipse at 50% 70%, #344338 0%, #202b2a 36%, #171a20 74%);
-  transition: background 300ms ease;
-}
-#stage::before {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 28%;
-  background: linear-gradient(0deg, #111317, transparent);
-  content: '';
-}
-.sprite {
-  position: relative;
-  z-index: 1;
-  width: min(34%, 190px);
-  height: min(90%, 300px);
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  filter: drop-shadow(0 10px 12px #0007);
-  opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 250ms ease, transform 250ms ease, filter 250ms ease;
-}
-.sprite svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.sprite.active { opacity: 1; transform: translateY(0); }
-.sprite.speaking { transform: translateY(-5px) scale(1.04); filter: drop-shadow(0 0 12px #fff5); }
-
-#dialogue-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  min-height: 190px;
-  padding: 18px 24px 20px;
-  border-top: 3px solid #34343f;
-  background: #1e1e24f5;
-  backdrop-filter: blur(8px);
-}
-.act-label { margin-bottom: 5px; font-size: .65rem; }
-#speaker-name { margin-bottom: 7px; color: var(--accent-pink); font-size: 1rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-#dialogue-text { max-width: 680px; margin: 0 0 12px; color: var(--text-main); font-size: .9rem; line-height: 1.6; white-space: pre-line; }
-.next-button { float: right; min-width: 105px; padding: 9px 16px; }
-.choices-box { display: grid; gap: 8px; margin: 12px 0 0; }
-.choice-btn { width: 100%; padding: 10px 14px; text-align: left; font-size: .8rem; }
-.choice-btn:hover { border-color: var(--accent-green); background: #29362a; }
-.ending-copy { max-width: 560px; margin: 22px 0 28px; color: var(--text-main); line-height: 1.7; }
-
-@media (max-width: 560px) {
-  body { padding: 8px; }
-  #game-container { height: calc(100dvh - 16px); min-height: 470px; border-radius: 12px; }
-  .screen { padding: 22px 16px; }
-  .option-grid { grid-template-columns: 1fr; gap: 10px; }
-  .character-option { min-height: 86px; }
-  #stage { inset: 0 0 220px; padding-inline: 5%; }
-  #dialogue-container { min-height: 220px; padding: 14px 16px; }
-  #dialogue-text { font-size: .82rem; }
-  .stat-badge { padding: 7px 9px; }
-  .start-actions { flex-direction: column; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-}
-
+    <section id="screen-end" class="screen" aria-labelledby="end-title" hidden>
+      <p class="eyebrow">Your story ends… for now</p>
+      <h2 id="end-title" class="title-logo">THE END</h2>
+      <p id="end-text" class="ending-copy"></p>
+      <button class="btn btn-primary" type="button" data-action="reset">Play again</button>
+    </section>
+  </main>
+</body>
+</html>
