@@ -160,6 +160,7 @@ h2 { margin: 0 0 18px; font-size: clamp(1.35rem, 4vw, 2rem); }
   transform: translateY(15px);
   transition: opacity 250ms ease, transform 250ms ease, filter 250ms ease;
 }
+.sprite svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .sprite.active { opacity: 1; transform: translateY(0); }
 .sprite.speaking { transform: translateY(-5px) scale(1.04); filter: drop-shadow(0 0 12px #fff5); }
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#121214">
-  <title>Brain-Dead For You — Visual Novel</title>
+  <title>Brain-Dead For You — Zombie Romance</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -12,7 +12,7 @@
   <main id="game-container" aria-label="Brain-Dead For You visual novel">
     <div id="hud" aria-live="polite" hidden>
       <div id="hunger-display" class="stat-badge">🧠 HUNGER: 30%</div>
-      <div id="affection-display" class="stat-badge">🖤 AFFECTION: 0</div>
+      <div id="affection-display" class="stat-badge">💖 AFFECTION: 0</div>
     </div>
 
     <section id="screen-start" class="screen active" aria-labelledby="start-title">
@@ -28,11 +28,11 @@
       <div class="option-grid">
         <button class="btn character-option" type="button" data-protagonist="Ash">
           <span class="option-name">Ash <small>(he/him)</small></span>
-          <span class="option-description">Soft-hearted slacker art student</span>
+          <span class="option-description">Soft-hearted art student with extra feelings.</span>
         </button>
         <button class="btn character-option" type="button" data-protagonist="Cleo">
           <span class="option-name">Cleo <small>(she/her)</small></span>
-          <span class="option-description">Alt-rock riot grrrl</span>
+          <span class="option-description">Alt-rock riot grrrl with a chaotic heart.</span>
         </button>
       </div>
       <button class="text-button" type="button" data-action="back-start">Back</button>
@@ -61,7 +61,7 @@
 
     <section id="screen-end" class="screen" aria-labelledby="end-title" hidden>
       <p class="eyebrow">Your story ends… for now</p>
-      <h2 id="end-title" class="title-logo">GAME OVER</h2>
+      <h2 id="end-title" class="title-logo">THE END</h2>
       <p id="end-text" class="ending-copy"></p>
       <button class="btn btn-primary" type="button" data-action="reset">Play again</button>
     </section>
