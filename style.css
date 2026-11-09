@@ -29,7 +29,7 @@ button { font: inherit; }
 #game-container {
   position: relative;
   width: min(100%, 800px);
-  height: min( min(780px, calc(100dvh - 40px)), 620px);
+  height: min(min(780px, calc(100dvh - 40px)), 620px);
   min-height: 500px;
   overflow: hidden;
   isolation: isolate;
@@ -188,7 +188,7 @@ h2 { margin: 0 0 18px; font-size: clamp(1.35rem, 4vw, 2rem); }
   .screen { padding: 22px 16px; }
   .option-grid { grid-template-columns: 1fr; gap: 10px; }
   .character-option { min-height: 86px; }
-  #stage { inset-bottom: 220px; padding-inline: 5%; }
+  #stage { inset: 0 0 220px; padding-inline: 5%; }
   #dialogue-container { min-height: 220px; padding: 14px 16px; }
   #dialogue-text { font-size: .82rem; }
   .stat-badge { padding: 7px 9px; }
