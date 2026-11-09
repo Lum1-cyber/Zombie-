@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zombie Survival</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="game-shell">
-      <canvas id="gameCanvas" width="960" height="540"></canvas>
-      <div id="hud">
-        <div class="stat">
-          <span>Health</span>
-          <strong id="healthText">100</strong>
-        </div>
-        <div class="stat">
-          <span>Score</span>
-          <strong id="scoreText">0</strong>
-        </div>
-      </div>
-      <div id="overlay" class="visible">
-        <h1>Zombie Survival</h1>
-        <p>WASD to move</p>
-        <p>Move mouse to aim</p>
-        <p>Click to shoot</p>
-        <button id="startButton">Start Game</button>
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#121214">
+  <title>Brain-Dead For You — Visual Novel</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main id="game-container" aria-label="Brain-Dead For You visual novel">
+    <div id="hud" aria-live="polite" hidden>
+      <div id="hunger-display" class="stat-badge">🧠 HUNGER: 30%</div>
+      <div id="affection-display" class="stat-badge">🖤 AFFECTION: 0</div>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <section id="screen-start" class="screen active" aria-labelledby="start-title">
+      <p class="eyebrow">A queer cozy-apocalyptic romance</p>
+      <h1 id="start-title" class="title-logo">BRAIN-DEAD<br>FOR YOU</h1>
+      <p class="intro-copy">The world ended, but your yearning hasn't.</p>
+      <button class="btn btn-primary" type="button" data-action="start">Start game</button>
+    </section>
+
+    <section id="screen-char-select" class="screen" aria-labelledby="protagonist-title" hidden>
+      <p class="eyebrow">First, who are you?</p>
+      <h2 id="protagonist-title">Choose your protagonist</h2>
+      <div class="option-grid">
+        <button class="btn character-option" type="button" data-protagonist="Ash">
+          <span class="option-name">Ash <small>(he/him)</small></span>
+          <span class="option-description">Soft-hearted slacker art student</span>
+        </button>
+        <button class="btn character-option" type="button" data-protagonist="Cleo">
+          <span class="option-name">Cleo <small>(she/her)</small></span>
+          <span class="option-description">Alt-rock riot grrrl</span>
+        </button>
+      </div>
+      <button class="text-button" type="button" data-action="back-start">Back</button>
+    </section>
+
+    <section id="screen-crush-select" class="screen" aria-labelledby="crush-title" hidden>
+      <p class="eyebrow">Someone has your heart</p>
+      <h2 id="crush-title">Choose your crush</h2>
+      <div id="crush-options" class="option-grid"></div>
+      <button class="text-button" type="button" data-action="back-protagonist">Back</button>
+    </section>
+
+    <section id="screen-game" class="screen game-screen" aria-label="Story">
+      <div id="stage" aria-hidden="true">
+        <div id="player-sprite" class="sprite"></div>
+        <div id="crush-sprite" class="sprite"></div>
+      </div>
+      <div id="dialogue-container" aria-live="polite" aria-atomic="true">
+        <p id="act-label" class="act-label"></p>
+        <div id="speaker-name">System</div>
+        <p id="dialogue-text"></p>
+        <div id="choices-box" class="choices-box"></div>
+        <button id="next-btn" class="btn btn-primary next-button" type="button" data-action="next">Next <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
+    <section id="screen-end" class="screen" aria-labelledby="end-title" hidden>
+      <p class="eyebrow">Your story ends… for now</p>
+      <h2 id="end-title" class="title-logo">GAME OVER</h2>
+      <p id="end-text" class="ending-copy"></p>
+      <button class="btn btn-primary" type="button" data-action="reset">Play again</button>
+    </section>
+  </main>
+</body>
 </html>
