@@ -50,8 +50,9 @@ button, a { font: inherit; }
   text-align: center;
   animation: arrive 220ms ease-out;
 }
-.screen[hidden], #hud[hidden] { display: none; }
 .screen.active { display: flex; }
+/* Keep inactive screens hidden even when they also have the .active display rule. */
+.screen[hidden], #hud[hidden] { display: none !important; }
 
 @keyframes arrive {
   from { opacity: 0; transform: translateY(6px); }
