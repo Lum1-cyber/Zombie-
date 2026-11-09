@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zombie Survival</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-shell">
+      <canvas id="gameCanvas" width="960" height="540"></canvas>
+      <div id="hud">
+        <div class="stat">
+          <span>Health</span>
+          <strong id="healthText">100</strong>
+        </div>
+        <div class="stat">
+          <span>Score</span>
+          <strong id="scoreText">0</strong>
+        </div>
+      </div>
+      <div id="overlay" class="visible">
+        <h1>Zombie Survival</h1>
+        <p>WASD to move</p>
+        <p>Move mouse to aim</p>
+        <p>Click to shoot</p>
+        <button id="startButton">Start Game</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
